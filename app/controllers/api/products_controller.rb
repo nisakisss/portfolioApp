@@ -15,7 +15,7 @@ module Api
         def destroy 
             @product = Product.find(params[:id])
             @product.destroy
-            render json: "Deleted..."
+            render json: "Deleted"
         end
 
         def product_params 
