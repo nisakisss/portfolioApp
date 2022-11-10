@@ -6,6 +6,12 @@ module Api
             render json: @product
         end
 
+        def update 
+            @product = Product.find(params[:id])
+            @product.update(product_params)
+            render json: @product
+        end
+
         def product_params 
             params.permit(:name, :description, :quantity, :price)
         end  
