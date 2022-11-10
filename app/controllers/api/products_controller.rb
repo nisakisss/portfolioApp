@@ -1,5 +1,11 @@
 module Api 
     class ProductsController < ApplicationController
+
+        def index 
+            @products = Product.all 
+            render json: @products
+        end
+
         def create 
             @product = Product.create(product_params)
             @product.save
