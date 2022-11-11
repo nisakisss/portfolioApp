@@ -1,6 +1,8 @@
 module Api 
     class ProductsController < ApplicationController
 
+        before_action :set_product, only: %i[update show destroy]
+
         def index 
             @products = Product.all 
             if !@products.blank?
@@ -20,16 +22,14 @@ module Api
         end
 
         def update 
-            product = set_product
-            if product.update(product_params)
-                render json: product, status: :ok
+            if @product.update(product_params)
+                render json: @product, status: :ok
             else
                 render json: "Error", status: :bad_request
             end
         end
 
         def destroy 
-            product = set_product
             if product.destroy
                 render json: "Deleted...", status: :ok
             else
@@ -38,8 +38,8 @@ module Api
         end
 
         def show 
-            product = set_product
-            render json: product
+            image = rails_blob_url(@product.product_image)
+            render json: {"image": image, "product": @product}
         end
 
         private 
@@ -49,7 +49,7 @@ module Api
         end
 
         def product_params 
-            params.permit(:name, :description, :quantity, :price)
+            params.permit(:name, :description, :quantity, :price, :product_image)
         end  
     end
 end
